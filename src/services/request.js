@@ -1,81 +1,50 @@
 import _ from 'lodash';
-import qs from 'query-string';
+import axios from 'axios';
 
 const requestService = {
-  apiUrl: '',
-  setApiUrl: apiUrl => {
-    requestService.apiUrl = apiUrl;
-  },
-  makeRequest: (method, path = '/', body = null, query = {}) => {
-    if (!requestService.apiUrl) {
-      return Promise.reject({ message: 'apiUrl has not been set' });
-    }
-    const queryString = qs.stringify(query);
-
-    const request = new Request(`${requestService.apiUrl}${path}?${queryString}`, {
+  makeRequest: ({ method, host, path, query = {}, body = null, headers = {} } = {}) => {
+    axios.method({
+      url: path,
       method,
-      body: _.isPlainObject(body) ? JSON.stringify(body) : body,
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json', // eslint-disable-line quote-props
-        'Content-Type': 'application/json',
-        'authentication': localStorage.getItem('password'), // eslint-disable-line quote-props
-      },
-    });
+      baseURL: host,
+      headers,
+      params: query,
+      data: body,
 
-    return fetch(request)
-      .then(response => (
-        response.status >= 200 && response.status < 300
-          ? Promise.resolve(response)
-          : Promise.reject(new Error(`Got ${response.status} status code`))
-      ))
-      .then(response => response.json());
+      onUploadProgress: progressEvent => console.log('upload progress', progressEvent),
+      onDownloadProgress: progressEvent => console.log('download progress', progressEvent),
+    });
   },
-  sendFormData: (path, formData, query = '') => {
-    if (!requestService.apiUrl) {
-      return Promise.reject({ message: 'apiUrl has not been set' });
+
+  /**
+   * Creates a new instance of axios with custom options and returns it
+   * @param {string} name all names are allowed except 'createInstance' and 'makeRequest'
+   * @param {string} method GET, POST, PUT, DELETE etc.
+   * @param {string} host to send requests to
+   * @param {string} path to send requests to
+   * @param {object} query object that is going to be added to the url
+   * @param {object} body to be sent in the requests
+   * @param {object} headers to be set in the requests
+   * @return {object} new axios instance
+   */
+  createInstance: (name, { method, host, path, query, body, headers }) => {
+    if (_.includes(['createInstance', 'makeRequest'], name)) {
+      throw new Error('createInstance and makeRequest are not allowed as name of axios instance');
     }
-    const queryString = qs.stringify(query);
-    const request = new Request(`${requestService.apiUrl}${path}?${queryString}`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json', // eslint-disable-line quote-props
-        // 'Content-Type': 'multipart/form-data',
-        'authentication': localStorage.getItem('password'), // eslint-disable-line quote-props
-      },
-    });
-
-    return fetch(request)
-      .then(response => (
-        response.status >= 200 && response.status < 300
-          ? Promise.resolve(response)
-          : Promise.reject(new Error('Something went wrong'))
-      ))
-      .then(response => response.json());
-  },
-  makeExternalRequest: (method, url, body = null, query = '') => {
-    const queryString = qs.stringify(query);
-    const request = new Request(`${url}?${queryString}`, {
+    if (_.has(requestService, name)) {
+      throw new Error(`Instance with the name "${name}" is already defined`);
+    }
+    requestService[name] = axios.create({
       method,
-      body: body && JSON.stringify(body),
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json', // eslint-disable-line quote-props
-        'Content-Type': 'application/json',
-      },
+      host,
+      path,
+      query,
+      body,
+      headers,
     });
 
-    return fetch(request)
-      .then(response => (
-        response.status >= 200 && response.status < 300
-          ? Promise.resolve(response)
-          : Promise.reject(new Error(`Got ${response.status} status code`))
-      ))
-      .then(response => response.json());
+    return requestService[name];
   },
-
 };
 
 export default requestService;

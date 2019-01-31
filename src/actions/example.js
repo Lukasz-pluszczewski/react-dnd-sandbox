@@ -3,7 +3,7 @@ import request from '../services/request';
 const actionsDefinitions = {
   makeRequest: {
     type: 'better-promise',
-    async: query => request.makeRequest('GET', '/example', null, query),
+    async: query => request.makeRequest({ method: 'get', url: 'http://example.com', query }),
     initial: {
       'result.getRecipes': [],
     },

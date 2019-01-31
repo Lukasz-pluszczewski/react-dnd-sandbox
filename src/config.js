@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: process.env.REACT_APP_API_URL,
+  exampleParam: process.env.REACT_APP_EXAMPLE_PARAM,
 };
 
 export default config;
