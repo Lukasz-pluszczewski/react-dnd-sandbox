@@ -1,5 +1,4 @@
-# Czarny Frontend Boilerplate 2
-> Frontend boilerplate using create-react-app, ant design, redux and redux-breeze
+# Reaqct DnD sandbox
 
 ### Environment variables
 - **PORT** (default: 5000, production only)

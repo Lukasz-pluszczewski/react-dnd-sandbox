@@ -1,5 +1,5 @@
 {
-  "name": "czarny-frontend-boilerplate-2",
+  "name": "react-dnd-sandbox",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -14,7 +14,10 @@
     "body-parser": "1.18.3",
     "compression": "1.7.3",
     "cors": "2.8.5",
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "react-cosmos": "^4.8.1",
+    "react-dnd": "^7.6.0",
+    "react-dnd-html5-backend": "^7.6.0"
   },
   "devDependencies": {
     "antd": "^3.10.1",
@@ -26,12 +29,11 @@
     "node-sass": "^4.9.4",
     "perfect-immutable": "2.0.1",
     "prop-types": "^15.6.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-redux": "^6.0.0",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-router-redux": "^4.0.8",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
     "redux-better-promise": "^1.0.1",
@@ -47,7 +49,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "production": "npm run build && npm run serve",
-    "serve": "NODE_PATH=src ENV=production node src/server.js"
+    "serve": "NODE_PATH=src ENV=production node src/server.js",
+    "cosmos": "cosmos",
+    "cosmos:export": "cosmos-export"
   },
   "eslintConfig": {
     "extends": [

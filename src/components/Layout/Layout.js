@@ -47,7 +47,7 @@ class PageLayout extends Component {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Czarny Boilerplate <span className="copyleft">©</span> 2018 Created by Łukasz Pluszczewski
+            React testing workshop <span className="copyleft">©</span> 2019 Brainhub
           </Footer>
         </Layout>
       </Layout>
