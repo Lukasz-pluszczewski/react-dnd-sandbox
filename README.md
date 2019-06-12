@@ -1,4 +1,4 @@
-# Reaqct DnD sandbox
+# React DnD sandbox
 
 ### Environment variables
 - **PORT** (default: 5000, production only)
