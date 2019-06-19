@@ -1,6 +1,5 @@
 import React, { Component, Suspense, lazy } from 'react';
 
-import Login from '../Login/Login';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import { Layout, Menu, Icon, Button } from 'antd';
@@ -14,18 +13,12 @@ const HomePage = lazy(() => import(
   /* webpackChunkName: "HomePage" */
   '../../pages/HomePage'
 ));
-const ExamplePage = lazy(() => import(
-  /* webpackChunkName: "ExamplePage" */
-  '../../pages/ExamplePage'
+const HooksPage = lazy(() => import(
+  /* webpackChunkName: "HooksPage" */
+  '../../pages/HooksPage'
 ));
 
 class App extends Component {
-
-  removePassword = () => {
-    localStorage.setItem('password', '');
-    this.loginRef.forceUpdate();
-  };
-
   render() {
     let activePage;
 
@@ -50,8 +43,8 @@ class App extends Component {
               <Menu.Item key="home">
                 <Link to="/"><Icon type="home" />Home</Link>
               </Menu.Item>
-              <Menu.Item key="example">
-                <Link to="/example"><Icon type="align-left" />Example page</Link>
+              <Menu.Item key="hooks">
+                <Link to="/hooks"><Icon type="align-left" />Hooks</Link>
               </Menu.Item>
             </Menu>
             <Button
@@ -62,22 +55,20 @@ class App extends Component {
               onClick={this.removePassword}
             />
           </Header>
-          <Login ref={el => this.loginRef = el}>
-            <Suspense fallback={<Loading withLayout/>}>
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  component={HomePage}
-                />
-                <Route
-                  exact
-                  path="/example"
-                  component={ExamplePage}
-                />
-              </Switch>
-            </Suspense>
-          </Login>
+          <Suspense fallback={<Loading withLayout/>}>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={HomePage}
+              />
+              <Route
+                exact
+                path="/hooks"
+                component={HooksPage}
+              />
+            </Switch>
+          </Suspense>
         </Layout>
       </Router>
     );
